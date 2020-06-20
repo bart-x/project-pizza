@@ -1,6 +1,6 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
 
-const { active } = require("browser-sync");
+// const { active } = require("browser-sync");
 
 {
   'use strict';
@@ -75,6 +75,7 @@ const { active } = require("browser-sync");
 
       /* create element using utils.createElementFromHTML */
       thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
 
       /* find menu container */
       const menuContainer = document.querySelector(select.containerOf.menu);
@@ -96,24 +97,25 @@ const { active } = require("browser-sync");
         event.preventDefault();
 
         /* toggle active class on element of thisProduct */
-        thisProduct.element.classNames.toggle(active);
+        thisProduct.element.classList.toggle('active');
 
         /* find all active products */
-
+        const actives = document.querySelectorAll(select.all.menuProductsActive);
         /* START LOOP: for each active product */
+        for (let active of actives) {
+          /* START: if the active product isn't the element of thisProduct */
+          if (active !== thisProduct.element) {
 
-        /* START: if the active product isn't the element of thisProduct */
+            active.classList.remove('active');
+            /* remove class active for the active product */
 
-        /* remove class active for the active product */
-
-        /* END: if the active product isn't the element of thisProduct */
-
-        /* END LOOP: for each active product */
-
+            /* END: if the active product isn't the element of thisProduct */
+          }
+          /* END LOOP: for each active product */
+        }
         /* END: click event listener to trigger */
-
-
-      }
+      });
+    }
   }
 
   const app = {
