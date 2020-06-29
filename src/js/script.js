@@ -313,42 +313,82 @@
       const event = new Event('updated');
       thisWidget.element.dispatchEvent(event);
     }
-    };
+  }
 
-    const app = {
+  class Cart {
+    constructor(element) {
+      const thisCart = this;
 
-      initMenu: function () {
-        const thisApp = this;
+      thisCart.products = [];
 
-        // console.log('thisApp.data', thisApp.data);
+      thisCart.getElements(element);
+      thisCart.initActions();
 
-        for (let productData in thisApp.data.products) {
-          new Product(productData, thisApp.data.products[productData]);
-        }
-        // const testProduct = new Product();
-        // console.log('testProduct', testProduct);
-      },
+      console.log('new Cart', thisCart);
+    }
 
-      initData: function () {
-        const thisApp = this;
+    initActions() {
+      const thisCart = this;
 
-        thisApp.data = dataSource;
-      },
+      thisCart.dom.toggleTrigger.addEventListener('click', function () {
+        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
+    }
 
-      init: function () {
-        const thisApp = this;
-        // console.log('*** App starting ***');
-        // console.log('thisApp:', thisApp);
-        // console.log('classNames:', classNames);
-        // console.log('settings:', settings);
-        // console.log('templates:', templates);
+    getElements(element) {
+      const thisCart = this;
 
-        // console.log('thisApp.data', thisApp.data);
+      thisCart.dom = {};
 
-        thisApp.initData();
-        thisApp.initMenu();
-      },
-    };
+      thisCart.dom.wrapper = element;
+
+      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
+
+    }
+  }
+
+  const app = {
+
+    initMenu: function () {
+      const thisApp = this;
+
+      // console.log('thisApp.data', thisApp.data);
+
+      for (let productData in thisApp.data.products) {
+        new Product(productData, thisApp.data.products[productData]);
+      }
+      // const testProduct = new Product();
+      // console.log('testProduct', testProduct);
+    },
+
+    initData: function () {
+      const thisApp = this;
+
+      thisApp.data = dataSource;
+    },
+
+    initCart: function () {
+      const thisApp = this;
+
+      const cartElem = document.querySelector(select.containerOf.cart);
+      thisApp = new Cart(cartElem);
+    },
+
+    init: function () {
+      const thisApp = this;
+      // console.log('*** App starting ***');
+      // console.log('thisApp:', thisApp);
+      // console.log('classNames:', classNames);
+      // console.log('settings:', settings);
+      // console.log('templates:', templates);
+
+      // console.log('thisApp.data', thisApp.data);
+
+      thisApp.initData();
+      thisApp.initCart();
+      thisApp.initMenu();
+    },
+  };
 
   app.init();
-};
+}
