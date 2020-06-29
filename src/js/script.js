@@ -212,7 +212,6 @@
 
       /* START LOOP: for each paramId in thisProduct.data.params */
       for (let paramId in thisProduct.data.params) {
-        console.log('param', params);
 
         /* save the element in thisProduct.data.params with key paramId as const param */
         const param = thisProduct.data.params[paramId];
@@ -261,7 +260,7 @@
       thisWidget.setValue(thisWidget.input.value);
       thisWidget.initActions();
 
-      console.log('AmmountWidget', thisWidget);
+      console.log('AmountWidget', thisWidget);
       console.log('constructor arguments', element);
     }
 
@@ -301,7 +300,7 @@
         thisWidget.setValue(thisWidget.value - 1);
       });
 
-      thisWidget.linkIcrease.addEventListener('click', function (event) {
+      thisWidget.linkIncrease.addEventListener('click', function (event) {
         event.preventDefault();
         thisWidget.setValue(thisWidget.value + 1);
       });
@@ -371,7 +370,7 @@
       const thisApp = this;
 
       const cartElem = document.querySelector(select.containerOf.cart);
-      thisApp = new Cart(cartElem);
+      thisApp.cart = new Cart(cartElem);
     },
 
     init: function () {
@@ -385,8 +384,8 @@
       // console.log('thisApp.data', thisApp.data);
 
       thisApp.initData();
-      thisApp.initCart();
       thisApp.initMenu();
+      thisApp.initCart();
     },
   };
 
