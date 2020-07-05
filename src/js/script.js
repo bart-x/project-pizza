@@ -185,6 +185,7 @@
       thisProduct.cartButton.addEventListener('click', function (event) {
         event.preventDefault();
         thisProduct.processOrder();
+        thisProduct.addToCart();
       });
     }
 
@@ -198,12 +199,27 @@
       });
     }
 
+    addToCart() {
+      const thisProduct = this;
+
+      thisProduct.name = thisProduct.data.name;
+      console.log(thisProduct.name);
+
+      thisProduct.amount = thisProduct.amountWidget.value;
+      console.log(thisProduct.value);
+
+      app.cart.add(thisProduct);
+    }
+
+
     processOrder() {
       const thisProduct = this;
 
       /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
       const formData = utils.serializeFormToObject(thisProduct.form);
       // console.log('formData', formData);
+
+      thisProduct.params = {};
 
       /* set variable price to equal thisProduct.data.price */
       let price = thisProduct.data.price;
@@ -237,15 +253,40 @@
             price -= option.price;
             /* END ELSE IF: if option is not selected and option is default */
           }
+
+          //make constant and add to it all images for option
+          const optionImages = thisProduct.imageWrapper.querySelectorAll('.' + paramId + '-' + optionId);
+          //console.log('IMAGES:', optionImages);
+
+          if (optionSelected) {
+            if (!thisProduct.params[paramId]) {
+              thisProduct.params[paramId] = {
+                label: param.label,
+                options: {},
+              };
+            }
+            thisProduct.params[paramId].options[optionId] = option.label;
+
+            for (let images of optionImages) {
+              images.classList.add(classNames.menuProduct.imageVisible);
+            }
+          }
+          else {
+            for (let images of optionImages) {
+              images.classList.remove(classNames.menuProduct.imageVisible);
+            }
+          }
+
           /* END LOOP: for each optionId in param.options */
         }
         /* END LOOP: for each paramId in thisProduct.data.params */
       }
-        /* multiply price by amount */
-        price *= thisProduct.amountWidget.value;
+      /* multiply price by amount */
+      thisProduct.priceSingle = price;
+      thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value;
 
-        /* set the contents of thisProduct.priceElem to be the value of variable price */
-        thisProduct.priceElem.innerHTML = price;
+      /* set the contents of thisProduct.priceElem to be the value of variable price */
+      thisProduct.priceElem.innerHTML = thisProduct.price;
     }
   }
 
@@ -340,6 +381,11 @@
 
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
 
+    }
+
+    add(menuProduct) {
+      // const thisCart = this;
+      console.log('adding product', menuProduct);
     }
   }
 
