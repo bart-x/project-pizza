@@ -126,6 +126,7 @@
       const thisProduct = this;
 
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisCart.dom.productList = document.querySelector(select.cart.productList);
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
@@ -384,8 +385,21 @@
     }
 
     add(menuProduct) {
-      // const thisCart = this;
-      console.log('adding product', menuProduct);
+      const thisCart = this;
+      // console.log('adding product', menuProduct);
+
+      const generatedHTML = templates.cartProduct(menuProduct);
+      console.log(generatedHTML);
+
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
+      console.log(generatedDOM);
+
+      thisCart.dom.productList.appendChild(generatedDOM);
+
+      thisCart.products.push(menuProduct);
+      console.log('thisCart.products', thisCart.products);
+
+      thisCart.update();
     }
   }
 
