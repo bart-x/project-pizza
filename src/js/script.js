@@ -126,7 +126,7 @@
       const thisProduct = this;
 
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
-      thisCart.dom.productList = document.querySelector(select.cart.productList);
+
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
@@ -387,6 +387,8 @@
 
       thisCart.dom.wrapper = element;
 
+      thisCart.dom.productList = document.querySelector(select.cart.productList);
+
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
 
       thisCart.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
@@ -421,11 +423,12 @@
       thisCart.subtotalPrice = 0;
 
       for (let product of thisCart.products) {
+        console.log(product);
         thisCart.subtotalPrice += product.price;
         thisCart.totalNumber += product.amount;
       }
 
-      if (thisCart.prouct.length > 0) {
+      if (thisCart.products.length > 0) {
         thisCart.totalPrice = thisCart.subtotalPrice + thisCart.defaultDeliveryFee;
       } else {
         thisCart.totalPrice = 0;
@@ -496,7 +499,7 @@
     initAmountWidget() {
       const thisCartProduct = this;
 
-      thisCartProduct.amountWidget = new amountWidget(thisCartProduct.dom.amountWidget);
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
 
       thisCartProduct.dom.amountWidget.addEventListener('updated', function () {
         thisCartProduct.amount = thisCartProduct.amountWidget.value;
