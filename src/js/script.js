@@ -441,7 +441,7 @@
 
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
 
-      this.cart.dom.form = document.querySelector(select.cart.form);
+      thisCart.dom.form = document.querySelector(select.cart.form);
 
       thisCart.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
 
@@ -596,8 +596,10 @@ const app = {
         console.log('parsedResponse', parsedResponse);
 
         /* save parsedResponse as thisApp.data.products */
+        thisApp.data.products = parsedResponse;
 
         /* execute initMenu method */
+        thisApp.initMenu();
       });
 
     console.log('thisApp.data', JSON.stringify(thisApp.data));
