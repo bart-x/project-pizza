@@ -9,9 +9,80 @@ export class Booking {
   constructor(element) {
 
     const thisBooking = this;
+    thisBooking.starters = [];
+
     thisBooking.render(element);
     thisBooking.initWidgets();
     thisBooking.getData();
+    thisBooking.initActions();
+  }
+
+  initActions() {
+    const thisBooking = this;
+    const tables = thisBooking.dom.tables;
+    let bookedTable = '';
+
+    for (let table of tables) {
+      table.addEventListener('click', function () {
+        table.classList.add('booked');
+        bookedTable = table.getAttribute('data-table');
+        thisBooking.table = bookedTable;
+      });
+    }
+    thisBooking.hourPicker.dom.input.addEventListener('input', function () {
+      if (bookedTable.length > 0) {
+        tables[bookedTable - 1].classList.remove('booked');
+      }
+    });
+
+    thisBooking.datePicker.dom.input.addEventListener('input', function () {
+      if (bookedTable.length > 0) {
+        tables[bookedTable - 1].classList.remove('booked');
+      }
+    });
+
+    thisBooking.dom.bookButton.addEventListener('submit', function () {
+      event.preventDefault();
+      thisBooking.sendBooking()
+        .then(function () {
+          thisBooking.getData();
+        });
+    });
+
+    thisBooking.dom.bookButton.addEventListener('change', function (event) {
+      if (event.target.value == 'water' || event.target.value == 'bread') {
+        thisBooking.starters.push(event.target.value);
+      }
+    });
+  }
+  sendBooking() {
+    const thisBooking = this;
+    const url = settings.db.url + '/' + settings.db.booking;
+
+    const payload = {
+      id: '',
+      date: thisBooking.datePicker.correctValue,
+      hour: thisBooking.hourPicker.correctValue,
+      table: parseInt(thisBooking.table),
+      repeat: false,
+      duration: thisBooking.hoursAmount.correctValue,
+      ppl: thisBooking.peopleAmount.correctValue,
+      starters: thisBooking.starters,
+    };
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+
+    return fetch(url, options)
+      .then(function (response) {
+        return response.json();
+      });
   }
 
   getData() {
@@ -90,8 +161,6 @@ export class Booking {
       }
     }
 
-    // console.log('thisBooking.booked', thisBooking.booked);
-
     thisBooking.updateDOM();
   }
 
@@ -158,6 +227,7 @@ export class Booking {
   render(element) {
     const thisBooking = this;
     const generatedHTML = templates.bookingWidget();
+
     thisBooking.dom = {};
     thisBooking.dom.wrapper = element;
     thisBooking.dom.wrapper.innerHTML = generatedHTML;
@@ -166,16 +236,50 @@ export class Booking {
     thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
     thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
     thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
+    thisBooking.dom.bookbutton = thisBooking.dom.wrapper.querySelector(select.booking.form);
+
   }
 
   initWidgets() {
     const thisBooking = this;
+
     thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
     thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
+
     thisBooking.dom.wrapper.addEventListener('updated', function () {
       thisBooking.updateDOM();
     });
+  }
+
+  rangeSliderActive() {
+    const thisBooking = this;
+
+    thisBooking.date = thisBooking.datePicker.value;
+    const bookedTimeRange = thisBooking.booked[thisBooking.date];
+
+    thisBooking.dom.rangeSlider = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.slider);
+
+    const sliderColors = [];
+
+    for (let bookedTime in bookedTimeRange) {
+      const min = 12;
+      const max = 24;
+      const step = 0.5;
+      const newValue = (((bookedTime - min) * 100) / (max - min));
+      const nextValue = (((bookedTime - min) + step) * 100) / (max - min);
+
+      if (bookedTime < max) {
+        if (bookedTimeRange[bookedTime].length <= 1) {
+          sliderColors.push('/*' + bookedTime + '*/green' + newValue + '%, green' + nextValue + '%');
+        } else if (bookedTimeRange[bookedTime].length === 2) {
+          sliderColors.push('/*' + bookedTime + '*/orange' + newValue + '%, orange' + nextValue + '%');
+        } else if (bookedTimeRange[bookedTime].length === 3) {
+          sliderColors.push('/*' + bookedTime + '*/red' + newValue + '%, red' + nextValue + '%');
+        }
+      }
+    }
+    sliderColors.sort();
   }
 };
