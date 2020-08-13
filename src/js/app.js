@@ -17,7 +17,7 @@ const app = {
     let pageMatchingHash = thisApp.pages[0].id;
 
     for (let page of thisApp.pages) {
-      if (page.id == ifFromHash) {
+      if (page.id == idFromHash) {
         pageMatchingHash = page.id;
         break;
       }
@@ -25,7 +25,7 @@ const app = {
 
     thisApp.activatePage(idFromHash);
 
-    for (let link of navLinks) {
+    for (let link of thisApp.navLinks) {
       link.addEventListener('click', function (event) {
         const clickedElement = this;
         event.preventDefault();
@@ -59,7 +59,7 @@ const app = {
     }
 
     /* add class "active" to matching links, remove from non-matching */
-    for (let links of thisApp.navLinks) {
+    for (let link of thisApp.navLinks) {
       link.classList.toggle(
         classNames.nav.active,
         link.getAttribute('href') == '#' + pageId

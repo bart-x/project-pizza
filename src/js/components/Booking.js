@@ -41,19 +41,19 @@ export class Booking {
       }
     });
 
-    thisBooking.dom.bookButton.addEventListener('submit', function () {
-      event.preventDefault();
-      thisBooking.sendBooking()
-        .then(function () {
-          thisBooking.getData();
-        });
-    });
+    // thisBooking.dom.bookButton.addEventListener('submit', function () {
+    //   event.preventDefault();
+    //   thisBooking.sendBooking()
+    //     .then(function () {
+    //       thisBooking.getData();
+    //     });
+    // });
 
-    thisBooking.dom.bookButton.addEventListener('change', function (event) {
-      if (event.target.value == 'water' || event.target.value == 'bread') {
-        thisBooking.starters.push(event.target.value);
-      }
-    });
+    // thisBooking.dom.bookButton.addEventListener('change', function (event) {
+    //   if (event.target.value == 'water' || event.target.value == 'bread') {
+    //     thisBooking.starters.push(event.target.value);
+    //   }
+    // });
   }
   sendBooking() {
     const thisBooking = this;
@@ -89,7 +89,7 @@ export class Booking {
     const thisBooking = this;
 
     const startDateParam = settings.db.dateStartParamKey + '=' + utils.dateToStr(thisBooking.datePicker.minDate);
-    const endDateParam = settings.db.dateEndParamKey + '=' + utils.dateToStr(thisBooking.datePicker.maxDate),
+    const endDateParam = settings.db.dateEndParamKey + '=' + utils.dateToStr(thisBooking.datePicker.maxDate);
 
     const params = {
       booking: [
