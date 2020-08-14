@@ -28,7 +28,7 @@ class BaseWidget {
     thisWidget.renderValue();
   }
 
-  setValue(value){
+  setValue(value) {
     const thisWidget = this;
 
     thisWidget.value = value;
@@ -46,6 +46,10 @@ class BaseWidget {
     const thisWidget = this;
 
     thisWidget.dom.wrapper.innerHTML = thisWidget.value;
+  }
+
+  parseValue(value) {
+    return parseInt(value);
   }
 
   announce() {
