@@ -3,7 +3,8 @@ import { settings, select } from '../settings.js';
 import utils from '../utils.js';
 
 
-export class HourPicker extends BaseWidget {
+export
+ class HourPicker extends BaseWidget {
   constructor(wrapper) {
     super(wrapper, settings.hours.open);
     const thisWidget = this;
