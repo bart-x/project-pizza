@@ -34,6 +34,7 @@ input, select {
   border: 1px solid $color-dark;
   border-radius: $radius;
   padding: $base-size;
+  margin: 0 5px;
 
   // CODE ADDED START
   &.error {

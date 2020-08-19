@@ -37,16 +37,15 @@
 
   a {
     color: $color-light;
+    text-decoration: none;
   }
 
   h2 {
     margin: 36px 0 8px 0;
-    text-decoration: none;
   }
 
   p {
     visibility: hidden;
-    text-decoration: none;
   }
 }
 
@@ -112,6 +111,16 @@
   font-weight: bold;
 }
 
+/* Indicators look - external class of the plugin */
+
+.carousel-indicators {
+  li {
+    width: 10px;
+    border-radius: 5px;
+    padding: 5px;
+  }
+}
+
 /*GALLERY*/
 
 .gallery-row {
@@ -140,15 +149,15 @@
 
       a {
         padding: 5px;
-
+        color: $color-light
       }
 
-      .fa-heart {
+      .fa-heart:hover {
         color: $color-danger;
       }
 
-      .fa-share-alt {
-        color: $color-light;
+      .fa-share-alt:hover {
+        color: $color-danger;
       }
     }
 
