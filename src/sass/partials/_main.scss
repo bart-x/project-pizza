@@ -4,7 +4,13 @@
   padding: 50px 10px;
   height: 100%;
   background-color: $color-light;
+}
 
+.main-wrapper.container {
+  background: white;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding: 10px 20px;
 }
 
 .main-site-nav {
@@ -30,7 +36,6 @@
   transition: $transition;
   text-align: center;
 
-
   &.active {
     opacity: 0.7;
   }
@@ -50,23 +55,20 @@
 }
 
 .nav-box:first-child {
-  background-image: url('../../images/pizza-1.jpg');
+  background-image: url("../../images/pizza-1.jpg");
 }
 
 .nav-box:last-child {
-  background-image: url('../../images/pizza-2.jpg');
+  background-image: url("../../images/pizza-2.jpg");
 }
 
 .nav-box:hover h2 {
   margin: 22px 0 8px 0;
-
 }
 
 .nav-box:hover p {
   visibility: visible;
-
 }
-
 
 .openingHours {
   background-color: $color-danger;
@@ -118,6 +120,8 @@
     width: 10px;
     border-radius: 5px;
     padding: 5px;
+    background-color: lightgray;
+    bottom: -60px;
   }
 }
 
@@ -149,7 +153,7 @@
 
       a {
         padding: 5px;
-        color: $color-light
+        color: $color-light;
       }
 
       .fa-heart:hover {
@@ -168,13 +172,17 @@
     }
 
     &:hover {
-      .layer { visibility: visible; }
+      .layer {
+        visibility: visible;
+      }
     }
   }
 }
 
 .instagram {
-  padding-top: 10px;
-  color: #F07966;
+  padding-top: 20px;
+  color: #f07966;
   text-decoration: none;
+  margin-bottom: 10px;
+  padding-bottom: 50px;
 }

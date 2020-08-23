@@ -1,10 +1,12 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background: #f07966;
+  background: whitesmoke;
   font-family: $font-text;
   font-size: 14px;
   line-height: 1.7;
@@ -15,5 +17,5 @@ body {
 .container {
   max-width: 700px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 50px 0 0 0;
 }
